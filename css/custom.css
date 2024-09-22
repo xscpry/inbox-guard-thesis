@@ -1,0 +1,118 @@
+*{
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --clr-1: #0D1282;
+    --clr-2: #FAE733;
+    --clr-3: #fff;
+    --clr-4: #de1d1d;
+    --clr-5: #000;
+}
+
+.logo {
+    height: 4vh;
+}
+
+.navbar {
+    background-color: white !important; 
+    box-shadow: 0 1px 4px rgb(0,0,0,0.5) !important;
+    z-index: 999999;
+}
+
+.home-banner {
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--clr-3);
+    color: var(--clr-5);
+}
+
+.inbox {
+    font-weight: bold;
+    font-size: inherit;
+    color: var(--clr-4);
+}
+
+.guard {
+    font-weight: bold;
+    font-size: inherit;
+    color: var(--clr-2);
+}
+
+.btn {
+    width: 200px;
+    line-height: 2;
+    border-radius: 1rem;
+    background-color: var(--clr-4);
+    color: var(--clr-3);
+    font-weight: bold;
+}
+
+.login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    line-height: 2;
+    border-radius: 1rem;
+    background-color: var(--clr-4);
+    color: var(--clr-3);
+    font-weight: bold;
+}
+
+.btn:hover {
+    color: var(--clr-2);
+    background-color: var(--clr-1);
+}
+
+.banner-title {
+    font-size: 80px;
+    color: var(--clr-1);
+}
+
+.banner-title span {
+    font-weight: bold;
+    display: block;
+    font-size: inherit;
+}
+
+.home-img {
+    width: 100%;
+    height: auto;
+}
+
+.login-banner, .signup-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-banner .container, .signup-banner .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.login-user {
+    width: 100%;
+}
+
+.login-signup {
+    text-decoration: none;
+    color: blue;
+}
+
+#form-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.hidden {
+    display: none;
+}
