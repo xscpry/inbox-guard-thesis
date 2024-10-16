@@ -191,3 +191,103 @@
 .view-email-container {
     padding: 5%;
 }
+
+.email-container {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.email-container:hover {
+    background-color: #f0f0f0;
+}
+
+.email-container:active {
+    background-color: #ccc;
+}
+
+
+
+.classification-safe {
+    background-color: green;
+    color: white;
+    padding: 0.2% 1%;
+    border-radius: 2rem;
+    display: inline-block;
+}
+
+.classification-malicious {
+    background-color: red;
+    color: white;
+    padding: 0.2% 1%;
+    border-radius: 2rem;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding-left: 3%;
+        padding-right: 3%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+    }
+
+    .email-container {
+        padding: 5%;
+    }
+
+    .subject {
+        font-size: 1rem;
+    }
+
+    .view-email-subject {
+        font-size: 1.4rem;
+    }
+
+    .email-body, .sender-date {
+        font-size: 0.9rem;
+    }
+
+    .details {
+        font-size: 0.8rem;
+    }
+
+    .classification-safe, 
+    .classification-malicious {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding-left: 2%;
+        padding-right: 2%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .email-container {
+        padding: 4%;
+    }
+
+    .subject {
+        font-size: 0.9rem;
+    }
+
+    .view-email-subject {
+        font-size: 1.2rem;
+    }
+
+    .email-body, .sender-date {
+        font-size: 0.8rem;
+    }
+
+    .classification-safe, 
+    .classification-malicious {
+        font-size: 0.75rem;
+    }
+}

@@ -40,14 +40,14 @@ if (!$email) {
 
 
 <div class="view-email-container">
-    <h1><?= htmlspecialchars($email['subject']) ?></h1>
-    <p><?= htmlspecialchars($email['sender']) ?> | <?= htmlspecialchars($email['email_date']) ?></p>
+    <h1 class="view-email-subject"><?= htmlspecialchars($email['subject']) ?></h1>
+    <p class="sender-date"><?= htmlspecialchars($email['sender']) ?> | <?= htmlspecialchars($email['email_date']) ?></p>
     
     <p>
         <?php if ($email['classification'] === 'Safe'): ?>
-            <span class="classification-safe"><?= htmlspecialchars($email['classification']) ?></span>
+            <span class="classification-safe"><?= htmlspecialchars($email['classification']) ?> Email</span>
         <?php elseif ($email['classification'] === 'Phishing'): ?>
-            <span class="classification-malicious">Malicious</span> 
+            <span class="classification-malicious">Malicious Email</span> 
         <?php else: ?>
             <span class="classification-default"><?= htmlspecialchars($email['classification']) ?></span>
         <?php endif; ?>

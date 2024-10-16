@@ -45,8 +45,8 @@ $email = $user['email'] ?? ''; // Fetch the email
         <div class="px-5 py-5 dashboard-backdrop">
             <h1 class="pb-4 ps-5">Welcome to your Dashboard, <?php echo htmlspecialchars($firstName); ?></h1>
             
-            <div class="container shadow-sm bg-white rounded py-5 px-5">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="container dashboard-container shadow-sm bg-white rounded py-5 px-5 d-flex flex-column">
+                <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
                     <h4>All Email Detected</h4>
                     <div class="email-address" style="text-align: right;"><?php echo htmlspecialchars($email); ?></div>
                 </div>
@@ -65,29 +65,15 @@ $email = $user['email'] ?? ''; // Fetch the email
                 $emails = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if ($emails) {
-                    echo '<table class="table table-bordered">';
-                    echo '<thead>';
-                    echo '<tr>';
-                    echo '<th>Subject</th>';
-                    echo '<th>Sender</th>';
-                    echo '<th>Date</th>';
-                    echo '<th>Classification</th>';
-                    echo '</tr>';
-                    echo '</thead>';
-                    echo '<tbody>';
-
-                    // Display each email
                     foreach ($emails as $email) {
-                        echo '<tr>';
-                        echo '<td><a href="view-email.php?id=' . htmlspecialchars($email['message_id']) . '">' . htmlspecialchars($email['subject']) . '</a></td>';
-                        echo '<td>' . htmlspecialchars($email['sender']) . '</td>';
-                        echo '<td>' . htmlspecialchars($email['email_date']) . '</td>';
-                        echo '<td>' . htmlspecialchars($email['classification']) . '</td>';
-                        echo '</tr>';
+                        echo '<div class="email-container border rounded p-3 mb-3" onclick="window.location.href=\'view-email.php?id=' . htmlspecialchars($email['message_id']) . '\'">';
+                        echo '<div class="subject font-weight-bold">' . htmlspecialchars($email['subject']) . '</div>';
+                        echo '<div class="details text-muted">';
+                        $classificationClass = $email['classification'] === 'Safe' ? 'classification-safe' : 'classification-malicious';
+                        echo htmlspecialchars($email['sender']) . ' • ' . htmlspecialchars($email['email_date']) . ' • <span class="' . $classificationClass . '">' . htmlspecialchars($email['classification']) . '</span>';
+                        echo '</div>';
+                        echo '</div>';
                     }
-
-                    echo '</tbody>';
-                    echo '</table>';
                 } else {
                     echo '<p>No emails found.</p>';
                 }
