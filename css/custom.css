@@ -85,6 +85,7 @@
     height: auto;
 }
 
+/* 
 .login-banner, .signup-banner {
     display: flex;
     justify-content: center;
@@ -115,4 +116,78 @@
 
 .hidden {
     display: none;
+} */
+
+
+.dashboard-backdrop {
+    background-color: #F4F3EE;
+}
+
+.rounded {
+    border-radius: 25px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Center the pagination controls */
+    margin-top: 20px; /* Space above the pagination */
+}
+
+.pagination a {
+    margin: 0 5px; /* Space between pagination links */
+    padding: 8px 12px; /* Padding around links */
+    text-decoration: none; /* Remove underline */
+    border: 1px solid #ccc; /* Border around links */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.pagination a.active {
+    background-color: #007bff; /* Active page background color */
+    color: white; /* Active page text color */
+}
+
+.pagination a:hover {
+    background-color: #0056b3; /* Hover color */
+    color: white; /* Hover text color */
+}
+
+.email-body {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.classification-safe {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    padding: 0.625rem;
+    border-radius: 0.3125rem;
+    display: inline-block;
+}
+
+.classification-malicious {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 0.625rem;
+    border-radius: 0.3125rem;
+    display: inline-block;
+}
+
+.classification-default {
+    background-color: gray;
+    color: white;
+    font-weight: bold;
+    padding: 0.625rem;
+    border-radius: 0.3125rem;
+    display: inline-block;
+}
+
+.view-email-container {
+    padding: 5%;
 }

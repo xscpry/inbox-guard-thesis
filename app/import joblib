@@ -1,0 +1,99 @@
+import joblib
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+import tensorflow as tf
+
+
+pd.set_option("display.max_row",None)
+pd.set_option("display.max_column",None)
+
+df=pd.read_csv('C:/xampp/htdocs/inbox-guard-thesis/model/Phishing_Email.csv')
+
+df.dropna(thresh=1*df.shape[1],inplace=True)
+
+df=df.rename(columns={'Email Text' : 'Body' , 'Email Type' : 'Type'})
+
+df=df.drop('Unnamed: 0', axis=1)
+
+df['Type'] = df['Type'].replace({'Safe Email': 0, 'Phishing Email': 1}).astype(int)
+
+def get_sequences(texts, tokenizer, train=True, max_seq_length=None):
+    sequences = tokenizer.texts_to_sequences(texts)
+    
+    if train == True:
+        max_seq_length = np.max(list(map(lambda x: len(x),sequences)))
+    
+    sequences = tf.keras.preprocessing.sequence.pad_sequences(sequences, maxlen=max_seq_length, padding='post')
+    return sequences
+
+def preprocess_inputs(df):
+    df=df.copy()
+    
+    # Split df into X and y    
+    y=df['Type']
+    X=df['Body']
+    
+    # Train-test split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.7, shuffle=True, random_state=1)
+    
+    # Create tokenizer
+    tokenizer = tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words=30000)
+    
+    # Fit tokenizer
+    tokenizer.fit_on_texts(X_train)
+    
+    # Convert texts to sequences
+    X_train = get_sequences(X_train, tokenizer, train=True)
+    X_test = get_sequences(X_test, tokenizer, train=False, max_seq_length=X_train.shape[1])
+    
+    return X_train, X_test, y_train, y_test
+
+X_train, X_test, y_train, y_test = preprocess_inputs(df)
+
+
+inputs = tf.keras.Input(shape=(19533,))
+embedding = tf.keras.layers.Embedding(
+    input_dim=30000,
+    output_dim=64
+)(inputs)
+
+flatten = tf.keras.layers.Flatten()(embedding)
+
+outputs = tf.keras.layers.Dense(1, activation='sigmoid')(flatten)
+
+model = tf.keras.Model(inputs=inputs, outputs=outputs)
+
+model.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=[
+        'accuracy',
+        tf.keras.metrics.AUC(name='auc')
+    ]
+)
+
+print(model.summary())
+
+history = model.fit(
+    X_train,
+    y_train,
+    validation_split=0.2,
+    batch_size=32,
+    epochs=100,
+    callbacks=[
+        tf.keras.callbacks.EarlyStopping(
+            monitor='val_loss',
+            patience=3,
+            restore_best_weights=True
+        )
+    ]
+)
+
+results = model.evaluate(X_test, y_test, verbose=0)
+
+print("Test Loss: {:.4f}" .format(results[0]))
+print("Test Accuracy: {:.2f}%" .format(results[1] * 100))
+print("Test AUC: {:.4f}" .format(results[2]))
+
+joblib.dump(model, 'model.joblib') # Save in joblib format for docker

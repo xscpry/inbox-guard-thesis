@@ -10,13 +10,6 @@
     $client->addScope('profile');
     $client->addScope(Google_Service_Gmail::GMAIL_READONLY);
 
-    session_start();
-    $timeout_duration = 5 * 60;
-
-    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
-        session_unset();
-        session_destroy();
-    }
-    $_SESSION['LAST_ACTIVITY'] = time();
+    require_once 'timeout.php';
 
 ?>
