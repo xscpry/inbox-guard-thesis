@@ -13,7 +13,7 @@
 }
 
 .logo {
-    height: 4vh;
+    height: 8vh;
 }
 
 .navbar {
@@ -23,12 +23,14 @@
 }
 
 .home-banner {
-    height: calc(100vh - 56px);
+    height: calc(100vh - 6rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: var(--clr-3);
     color: var(--clr-5);
+    overflow: hidden;
 }
 
 .inbox {
@@ -70,14 +72,9 @@
 }
 
 .banner-title {
-    font-size: 80px;
+    font-size: 4rem;
     color: var(--clr-1);
-}
-
-.banner-title span {
     font-weight: bold;
-    display: block;
-    font-size: inherit;
 }
 
 .home-img {
@@ -118,37 +115,40 @@
     display: none;
 } */
 
-
-.dashboard-backdrop {
-    background-color: #F4F3EE;
-}
-
 .rounded {
     border-radius: 25px;
 }
 
+.subject {
+    font-weight: bold;
+}
+
+.details {
+    font-size: 0.9em;
+}
+
 .pagination {
     display: flex;
-    justify-content: center; /* Center the pagination controls */
-    margin-top: 20px; /* Space above the pagination */
+    justify-content: center;
+    margin-top: 20px; 
 }
 
 .pagination a {
-    margin: 0 5px; /* Space between pagination links */
-    padding: 8px 12px; /* Padding around links */
-    text-decoration: none; /* Remove underline */
-    border: 1px solid #ccc; /* Border around links */
-    border-radius: 5px; /* Rounded corners */
+    margin: 0 5px; 
+    padding: 8px 12px; 
+    text-decoration: none; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
 }
 
 .pagination a.active {
-    background-color: #007bff; /* Active page background color */
-    color: white; /* Active page text color */
+    background-color: #007bff;
+    color: white; 
 }
 
 .pagination a:hover {
-    background-color: #0056b3; /* Hover color */
-    color: white; /* Hover text color */
+    background-color: #0056b3;
+    color: white;
 }
 
 .email-body {
@@ -206,7 +206,6 @@
 }
 
 
-
 .classification-safe {
     background-color: green;
     color: white;
@@ -223,7 +222,115 @@
     display: inline-block;
 }
 
-@media (max-width: 768px) {
+
+.about-us-section h1 {
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.about-us-section .statistics .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .home-banner {
+        height: auto;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: left;
+    }
+
+    .home-banner h1 {
+        font-size: 48px;
+    }
+
+    .home-banner img {
+        max-width: 70%;
+        margin: 0 auto;
+        height: auto;
+    }
+
+    .home-banner .row {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .home-banner .btn {
+        padding: 0.50rem;
+        font-size: 16px;
+        margin-top: 1rem;
+    }
+
+    .col-md-6 {
+        width: 100%;
+        padding: 1rem 0;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0 2rem;
+    }
+}
+
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .home-banner {
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--clr-3);
+        color: var(--clr-5);
+        margin-bottom: 2rem;
+        padding: 0 2rem 0 2rem;
+    }
+
+    .home-banner .col-md-6 {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+    
+    .home-banner .row {
+        display: flex;
+        flex-direction: column-reverse;
+        text-align: left;
+    }
+
+    .home-banner .banner-title {
+        font-size: 2rem;
+    }
+
+    .home-banner h1 {
+        font-size: 2rem;
+    }
+
+    .home-banner h5 {
+        font-size: 1rem;
+    }
+
+    .home-banner img {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .home-banner .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 1rem;
+    }
+
     .dashboard-container {
         padding-left: 3%;
         padding-right: 3%;
@@ -248,16 +355,87 @@
     }
 
     .details {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
     }
 
     .classification-safe, 
     .classification-malicious {
         font-size: 0.85rem;
     }
+    
+    .about-us-section .row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .about-us-section h1 {
+        font-size: 2rem;
+    }
+
+    .about-us-section p {
+        font-size: 0.9rem;
+    }
+
+    .about-us-section .italic, .bold {
+        font-size: 0.9rem;
+    }
+
+    .about-us-section .container {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: max-content;
+    }
+
+    .about-us-section .col {
+        margin-bottom: 1rem;
+    }
+
+    .about-us-section .row .col.container h1, h2 {
+        font-size: 1.5rem;
+    }
+
+    .about-us-section .row .col.container p {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
+    .home-banner .row {
+        display: flex;
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .home-banner {
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--clr-3);
+        color: var(--clr-5);
+        margin-bottom: 2rem;
+        padding: 0 2rem 0 2rem;
+    }
+
+    .home-banner .banner-title {
+        font-size: 1.2rem;
+    }
+
+    .home-banner h1 {
+        text-align: left;
+    }
+
+    .home-banner h5 {
+        text-align: left;
+        font-size: 0.8rem;
+    }
+
+    .home-banner .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
     .dashboard-container {
         padding-left: 2%;
         padding-right: 2%;
@@ -289,5 +467,43 @@
     .classification-safe, 
     .classification-malicious {
         font-size: 0.75rem;
+    }
+
+    .about-us-section .row {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    
+    .about-us-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .about-us-section p {
+        font-size: 0.8rem;
+    }
+
+    .about-us-section .italic, .bold {
+        font-size: 0.8rem;
+    }
+
+    .about-us-section .container.shadow {
+        padding: 15px;
+    }
+
+    .about-us-section .row .col.container h1, h2 {
+        font-size: 1.25rem;
+    }
+
+    .about-us-section .row .col.container p {
+        font-size: 0.75rem;
+    }
+
+    .about-us-section .statistics .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1rem;
+
     }
 }
