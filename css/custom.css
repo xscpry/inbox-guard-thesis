@@ -10,6 +10,7 @@
     --clr-3: #fff;
     --clr-4: #de1d1d;
     --clr-5: #000;
+    --clr-6: #00022e;
 }
 
 .logo {
@@ -19,18 +20,16 @@
 .navbar {
     background-color: white !important; 
     box-shadow: 0 1px 4px rgb(0,0,0,0.5) !important;
-    z-index: 999999;
 }
 
 .home-banner {
-    height: calc(100vh - 6rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    height: calc(100vh - 12vh);
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
     background-color: var(--clr-3);
     color: var(--clr-5);
-    overflow: hidden;
 }
 
 .inbox {
@@ -47,7 +46,7 @@
 
 .btn {
     width: 200px;
-    line-height: 2;
+    padding:1rem;
     border-radius: 1rem;
     background-color: var(--clr-4);
     color: var(--clr-3);
@@ -241,6 +240,48 @@
     flex-wrap: wrap;
 }
 
+footer {
+    display: flex;
+    align-items: center;
+    color: var(--clr-3);
+    background-color: var(--clr-6);
+    height: max-content;
+    flex-direction: column;
+}
+
+footer p {
+    margin-bottom: 0;
+}
+
+footer .row {
+    display: flex;
+    flex-direction: row;
+    height: max-content;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    margin: 2% 0 0 0;
+}
+
+footer .col {
+    margin: 0 0 0 6%;
+}
+
+
+footer a {
+    text-decoration: none;
+}
+
+footer i {
+    font-size: 150%;
+    color: var(--clr-3);
+    transition: color 0.3s ease;
+}
+
+footer i:hover {
+    color: var(--clr-2);
+}
+
 
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -261,11 +302,6 @@
         max-width: 70%;
         margin: 0 auto;
         height: auto;
-    }
-
-    .home-banner .row {
-        display: flex;
-        flex-direction: column-reverse;
     }
 
     .home-banner .btn {
@@ -317,6 +353,20 @@
         font-size: 2rem;
     }
 
+    footer h1 {
+        font-size: 2rem;
+        padding: 4% 0 0 0;
+    }
+
+    footer h3 {
+        padding: 4% 0 0 0;
+        font-size: 1.5rem;
+    }
+
+    footer i {
+        font-size: 130%;
+    }
+    
     .home-banner h5 {
         font-size: 1rem;
     }
@@ -426,6 +476,21 @@
         text-align: left;
     }
 
+    
+    footer h1 {
+        padding: 4% 0 0 0;
+        font-size: 1.5rem;
+    }
+
+    footer h3 {
+        font-size: 1.2rem;
+        padding: 4% 0 0 0;
+    }
+    
+    footer i {
+        font-size: 120%;
+    }
+    
     .home-banner h5 {
         text-align: left;
         font-size: 0.8rem;

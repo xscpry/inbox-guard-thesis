@@ -9,7 +9,7 @@ $aboutus = 'active';
 require_once 'include/head.php';
 ?>
 <body class="bg-light">
-<?php
+    <?php
         if (isset($_SESSION['user_id'])) {
             require_once 'include/header-logged-in.php';
         } else {
@@ -75,4 +75,5 @@ require_once 'include/head.php';
         </div>
     </section>
 </body>
+<?php require_once 'include/footer.php';?>
 </html>

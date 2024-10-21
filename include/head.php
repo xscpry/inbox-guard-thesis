@@ -7,6 +7,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link href="../vendor/dataTable-1.13.6/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/custom.css">
     <title><?= $title ?></title>
 </head>

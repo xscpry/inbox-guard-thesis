@@ -96,4 +96,5 @@ $email = $user['email'] ?? '';
         });
     </script>
 </body>
+    <?php require_once 'include/footer.php';?>
 </html>

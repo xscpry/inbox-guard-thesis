@@ -19,11 +19,11 @@
             require_once 'include/header-user.php';
         }
     ?>
-    <section class="home-banner">
+    <section class="home-banner justify-content-center">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 index-col mt-4">
-                    <div class="mb-2">
+                <div class="col">
+                    <div class="my-2">
                         <h1><span class="inbox">Inbox</span><span class="guard">Guard</span></h1>
                     </div>
                     <div class="mb-4">
@@ -37,9 +37,9 @@
                         <h5>Join us now and experience a safer, more secure inbox!</h5>
                     </div>
 
-                    <a href="google-login.php" class="btn">Login with Google</a>
+                    <a href="google-login.php" class="btn my-5">Login with Google</a>
                 </div>
-                <div class="col-md-6 text-center">
+                <div class="col text-center">
                     <img src="img/banner.jpg" class="img-fluid home-img" alt="">
                 </div>
             </div>
