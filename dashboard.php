@@ -36,8 +36,8 @@ $email = $user['email'] ?? '';
     <?php require_once 'include/header-logged-in.php'; ?>
     
     <main>
-        <div class="px-5 py-5 bg-light">
-            <h1 class="pb-4 ps-5">Welcome to your Dashboard, <?php echo htmlspecialchars($firstName); ?></h1>
+        <div class="dashboard px-5 py-5 bg-light">
+            <h1 class="dashboard-header pb-4 ps-5">Welcome to your Dashboard, <?php echo htmlspecialchars($firstName); ?></h1>
             
             <div class="container dashboard-container shadow-sm bg-white rounded py-5 px-5 d-flex flex-column">
                 <div class="dashboard-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-5">
@@ -62,7 +62,8 @@ $email = $user['email'] ?? '';
                             echo '<div class="subject font-weight-bold">' . htmlspecialchars($email['subject']) . '</div>';
                             echo '<div class="details text-muted">';
                             $classificationClass = $email['classification'] === 'Safe' ? 'classification-safe' : 'classification-malicious';
-                            echo htmlspecialchars($email['sender']) . ' • ' . htmlspecialchars($email['email_date']) . ' • <span class="' . $classificationClass . '">' . htmlspecialchars($email['classification']) . '</span>';
+                            echo '<div class="sender">' . htmlspecialchars($email['sender']) . '</div>';
+                            echo htmlspecialchars($email['email_date']) . ' • <span class="' . $classificationClass . '">' . htmlspecialchars($email['classification']) . '</span>';
                             echo '</div>';
                             echo '</div>';
                         }

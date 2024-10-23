@@ -16,6 +16,7 @@ from scipy.sparse import csr_matrix, hstack
 
 app = FastAPI()
 
+vectorizer = joblib.load('app/vectorizer.joblib')
 model = joblib.load('app/Random_Forest_model.joblib')
 class_names = np.array(['Safe Email', 'Phishing Email'])
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']

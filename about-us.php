@@ -39,7 +39,7 @@ require_once 'include/head.php';
                         <p>InboxGuard is the result of dedicated research aimed at enhancing email security. Emerging from a thesis project titled 
                         <span class="italic">"Defending the Inbox: A Prevention Application for Deterring Email-Based Attacks,"</span> this tool was developed as part of the fulfillment of the 
                         Bachelor of Science in Computer Science degree at the College of Computing Studies in Western Mindanao State University. Created by 
-                        <span class="bold">Sunshine O. Casido</span>, InboxGuard is designed to protect Gmail users from malicious email attacks, ensuring the safety and reliability of their inbox.
+                        Sunshine O. Casido, InboxGuard is designed to protect Gmail users from malicious email attacks, ensuring the safety and reliability of their inbox.
                         </p>
                         </div>
                     </div>                    

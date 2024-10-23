@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-xxl navbar-light bg-light sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <div class="container-fluid">
     <a href='/' class="navbar-brand"><img src="../img/inboxguard logo.png" class="logo" href="./index.php"></a>
     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

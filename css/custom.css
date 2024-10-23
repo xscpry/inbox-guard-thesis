@@ -23,7 +23,7 @@
 }
 
 .home-banner {
-    height: calc(100vh - 12vh);
+    height: calc(100vh - 16vh);
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -124,6 +124,10 @@
 
 .details {
     font-size: 0.9em;
+}
+
+.sender {
+    font-size: 0.9rem;
 }
 
 .pagination {
@@ -404,10 +408,14 @@ footer i:hover {
         font-size: 0.9rem;
     }
 
-    .details {
-        font-size: 0.6rem;
+    .details, .sender {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%; 
     }
-
+    
     .classification-safe, 
     .classification-malicious {
         font-size: 0.85rem;
@@ -502,10 +510,25 @@ footer i:hover {
     }
 
     .dashboard-container {
-        padding-left: 2%;
-        padding-right: 2%;
-        padding-top: 1%;
-        padding-bottom: 1%;
+        padding: 4% !important;
+        margin: 0;
+        font-size: .4rem;
+    }
+
+    .dashboard-header {
+        padding: 4% !important;
+    }
+
+    .dashboard {
+        padding: 4% !important;
+    }
+
+    .dashboard h1 {
+        font-size: 1.5rem;
+    }
+
+    .dashboard h4 {
+        font-size: 1.2rem;
     }
 
     .dashboard-header {
@@ -517,8 +540,16 @@ footer i:hover {
         padding: 4%;
     }
 
-    .subject {
+    .subject, .email-address {
         font-size: 0.9rem;
+    }
+    
+    .details, .sender {
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%; 
     }
 
     .view-email-subject {

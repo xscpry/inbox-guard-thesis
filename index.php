@@ -7,7 +7,7 @@
         exit();
     }
     
-    $title = 'Inbox Guard';
+    $title = 'Inbox Guard - Email Protection System';
     $homepage = 'active';
     require_once 'include/head.php';
 ?>
@@ -19,15 +19,15 @@
             require_once 'include/header-user.php';
         }
     ?>
-    <section class="home-banner justify-content-center">
+    <section class="home-banner">
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col mt-5">
                     <div class="my-2">
                         <h1><span class="inbox">Inbox</span><span class="guard">Guard</span></h1>
                     </div>
                     <div class="mb-4">
-                        <h1 class="banner-title">Email Protection Platform</h1>
+                        <h1 class="banner-title">Email Protection System</h1>
                     </div>
                     <div class="mb-4">
                         <h5>We provide users with strong protection against malicious email-based attacks. InboxGuard will ensure the 
@@ -37,9 +37,9 @@
                         <h5>Join us now and experience a safer, more secure inbox!</h5>
                     </div>
 
-                    <a href="google-login.php" class="btn my-5">Login with Google</a>
+                    <a href="google-login.php" class="btn my-2">Login with Google</a>
                 </div>
-                <div class="col text-center">
+                <div class="col mt-5 text-center">
                     <img src="img/banner.jpg" class="img-fluid home-img" alt="">
                 </div>
             </div>
