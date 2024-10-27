@@ -11,6 +11,7 @@
     --clr-4: #de1d1d;
     --clr-5: #000;
     --clr-6: #00022e;
+    --clr-7: #343a40;
 }
 
 .logo {
@@ -286,6 +287,51 @@ footer i:hover {
     color: var(--clr-2);
 }
 
+.privacy-policy {
+    padding: 5% 20%;
+}
+
+.privacy-policy h5, h2 {
+    color: var(--clr-7);
+    font-weight: bold;
+}
+
+.expand-all {
+    text-decoration: none;
+}
+
+.expand-all-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.collapse-title {
+    margin: 4% 0;
+}
+
+.collapse-title .row {
+    display: flex;
+    flex-direction: row !important;
+    border-bottom: 1px solid var(--clr-7);
+}
+
+.collapse-title .arrow {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.collapse-title a {
+    text-decoration: none;
+    color: var(--clr-7);
+}
+
+.collapse-title i {
+    font-size: 80%;
+}
+
+.card .card-body {
+    max-width: 100%;
+}
 
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -357,18 +403,29 @@ footer i:hover {
         font-size: 2rem;
     }
 
+    
     footer h1 {
-        font-size: 2rem;
         padding: 4% 0 0 0;
+        font-size: 1.2rem;
     }
 
     footer h3 {
+        font-size: 1.1rem;
         padding: 4% 0 0 0;
-        font-size: 1.5rem;
+    }
+    
+    footer i {
+        font-size: 100%;
+        margin: 1% !important;
     }
 
-    footer i {
-        font-size: 130%;
+    footer p, a {
+        font-size: 0.85rem;
+    }
+    
+    .home-banner h5 {
+        text-align: left;
+        font-size: 0.8rem;
     }
     
     .home-banner h5 {
@@ -456,6 +513,26 @@ footer i:hover {
     .about-us-section .row .col.container p {
         font-size: 0.85rem;
     }
+     
+    .privacy-policy {
+        padding: 5% 16%;
+    }
+
+    .privacy-policy p, .card-body li, .card-body strong, .expand-all {
+        font-size: 0.85rem;
+    }
+
+    .privacy-policy h1 {
+        font-size: 1.5rem;
+    }
+
+    .privacy-policy h5 {
+        font-size: 1rem;
+    }
+
+    .privacy-policy i {
+        font-size: 75%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -473,7 +550,7 @@ footer i:hover {
         background-color: var(--clr-3);
         color: var(--clr-5);
         margin-bottom: 2rem;
-        padding: 0 2rem 0 2rem;
+        padding: 0;
     }
 
     .home-banner .banner-title {
@@ -487,16 +564,21 @@ footer i:hover {
     
     footer h1 {
         padding: 4% 0 0 0;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
 
     footer h3 {
-        font-size: 1.2rem;
+        font-size: 1rem;
         padding: 4% 0 0 0;
     }
     
     footer i {
-        font-size: 120%;
+        font-size: 100%;
+        margin: 1% !important;
+    }
+
+    footer p, a {
+        font-size: 0.8rem;
     }
     
     .home-banner h5 {
@@ -601,5 +683,25 @@ footer i:hover {
         justify-content: space-between;
         gap: 1rem;
 
+    }
+
+    .privacy-policy {
+        padding: 8% 12%;
+    }
+
+    .privacy-policy p, .card-body li, .card-body strong, .expand-all {
+        font-size: 0.8rem;
+    }
+
+    .privacy-policy h1 {
+        font-size: 1.25rem;
+    }
+
+    .privacy-policy h5 {
+        font-size: .8rem;
+    }
+
+    .privacy-policy i {
+        font-size: 70%;
     }
 }

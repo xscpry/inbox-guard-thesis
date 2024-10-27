@@ -46,4 +46,7 @@
         </div>
     </section>
 </body>
+<?php
+    require_once 'include/footer.php';
+?>
 </html>

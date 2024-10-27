@@ -5,6 +5,7 @@
             <h1><span class="inbox">Inbox</span><span class="guard">Guard</span></h1>
             <p class="py-2">We give you strong protection from harmful email attacks, making sure InboxGuard keeps your data safe and secure.
             </p>
+            <a href="./privacy-policy.php" target="_blank">Privacy Policy</a>
         </div>
         <div class="col d-flex flex-column">
             <div>
