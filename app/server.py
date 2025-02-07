@@ -11,15 +11,21 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
 import re
-import numpy as np
+import numpy as npx
 from scipy.sparse import csr_matrix, hstack
 
 app = FastAPI()
 
-vectorizer = joblib.load('app/vectorizer.joblib')
-model = joblib.load('app/Random_Forest_model.joblib')
+vectorizer = joblib.load('retrained model/vectorizer.joblib')
+model = joblib.load('retrained model/random_forest_model.joblib')
 class_names = np.array(['Safe Email', 'Phishing Email'])
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+REDIRECT_URI = "http://localhost:8000/"
+
+flow = InstalledAppFlow.from_client_secrets_file(
+    'credentials.json', SCOPES, redirect_uri=REDIRECT_URI
+)
+
 
 # connect to db
 def get_db_connection():
@@ -96,6 +102,7 @@ async def fetch_and_predict():
         # wait for 10mins before fetching again
         await asyncio.sleep(600)
 
+
 # Gmail service authentication
 def get_gmail_service():
     creds = None
@@ -105,7 +112,9 @@ def get_gmail_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES, redirect_uri=REDIRECT_URI
+            )
             creds = flow.run_local_server(port=0)
         with open('token.json', 'w') as token:
             token.write(creds.to_json())

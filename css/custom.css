@@ -33,6 +33,15 @@
     color: var(--clr-5);
 }
 
+.section-banner {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: var(--clr-3);
+    color: var(--clr-5);
+}
+
 .inbox {
     font-weight: bold;
     font-size: inherit;
@@ -240,6 +249,47 @@
     font-weight: bold;
 }
 
+.section-banner {
+    margin: 6rem 0;
+}
+
+.section-banner .container .row .col {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-banner-img {
+    width: 70%;
+    height: auto;
+    align-self: center;
+}
+
+
+.section-banner .features .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.section-banner .features .row .col {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.section-banner .features .row .col h4 {
+    color: var(--clr-1);
+}
+
+.section-banner .features .row .col i {
+    font-size: 600%;
+    color: var(--clr-2);
+    transition: color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
+
 .about-us-section .statistics .row {
     display: flex;
     flex-wrap: wrap;
@@ -354,7 +404,7 @@ footer i:hover {
         height: auto;
     }
 
-    .home-banner .btn {
+    .home-banner .btn, .section-banner .btn {
         padding: 0.50rem;
         font-size: 16px;
         margin-top: 1rem;
@@ -381,7 +431,7 @@ footer i:hover {
         background-color: var(--clr-3);
         color: var(--clr-5);
         margin-bottom: 2rem;
-        padding: 0 2rem 0 2rem;
+        padding: 0;
     }
 
     .home-banner .col-md-6 {
@@ -395,31 +445,21 @@ footer i:hover {
         text-align: left;
     }
 
-    .home-banner .banner-title {
+    .banner-title {
         font-size: 2rem;
     }
 
     .home-banner h1 {
         font-size: 2rem;
     }
-
     
-    footer h1 {
-        padding: 4% 0 0 0;
-        font-size: 1.2rem;
-    }
-
-    footer h3 {
-        font-size: 1.1rem;
-        padding: 4% 0 0 0;
+    .homepage-privacy {
+        display: flex;
+        padding: 4%;
+        justify-content: center;
     }
     
-    footer i {
-        font-size: 100%;
-        margin: 1% !important;
-    }
-
-    footer p, a {
+    .homepage-privacy p, .homepage-privacy a {
         font-size: 0.85rem;
     }
     
@@ -428,16 +468,15 @@ footer i:hover {
         font-size: 0.8rem;
     }
     
-    .home-banner h5 {
+    .home-banner h5, .section-banner .row .col h5 {
         font-size: 1rem;
     }
 
     .home-banner img {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+        margin: 0;
     }
 
-    .home-banner .btn {
+    .home-banner .btn, .section-banner .btn {
         padding: 0.5rem 0.8rem;
         font-size: 1rem;
     }
@@ -506,11 +545,11 @@ footer i:hover {
         margin-bottom: 1rem;
     }
 
-    .about-us-section .row .col.container h1, h2 {
+    .about-us-section .row .col.container h1, h2, .section-banner .row .col.container h1, .section-banner .row .col.container h4 {
         font-size: 1.5rem;
     }
 
-    .about-us-section .row .col.container p {
+    .about-us-section .row .col.container p, .section-banner .row .col.container p {
         font-size: 0.85rem;
     }
      
@@ -533,6 +572,30 @@ footer i:hover {
     .privacy-policy i {
         font-size: 75%;
     }
+    
+    footer h1 {
+        padding: 4% 0 0 0;
+        font-size: 1.2rem;
+    }
+
+    footer h3 {
+        font-size: 1.1rem;
+        padding: 4% 0 0 0;
+    }
+    
+    footer i {
+        font-size: 100%;
+        margin: 1% !important;
+    }
+
+    .section-banner .features .row .col i {
+        font-size: 400%;
+        margin: 1.8rem;
+    }
+
+    footer p, a {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -553,14 +616,33 @@ footer i:hover {
         padding: 0;
     }
 
-    .home-banner .banner-title {
+    .banner-title, .section-banner .row .col.container h1{
         font-size: 1.2rem;
     }
 
     .home-banner h1 {
         text-align: left;
     }
+    
+        
+    .homepage-privacy {
+        display: flex;
+        justify-content: center;
+        padding: 2%;
+    }
+    
+    .homepage-privacy p, .homepage-privacy a, .section-banner .row .col.container p {
+        font-size: 0.7rem;
+    }
 
+    .section-banner .row .col.container i {
+        font-size: 300%;
+    }
+
+    .section-banner-img {
+        width: 100%;
+        height: auto;
+    }
     
     footer h1 {
         padding: 4% 0 0 0;
@@ -581,12 +663,12 @@ footer i:hover {
         font-size: 0.8rem;
     }
     
-    .home-banner h5 {
+    .home-banner h5, .section-banner .row .col h5 {
         text-align: left;
         font-size: 0.8rem;
     }
 
-    .home-banner .btn {
+    .home-banner .btn, .section-banner .btn {
         padding: 0.5rem 0.8rem;
         font-size: 0.8rem;
     }
@@ -609,7 +691,7 @@ footer i:hover {
         font-size: 1.5rem;
     }
 
-    .dashboard h4 {
+    .dashboard h4, .section-banner .row .col.container h1, .section-banner .row .col.container h4 {
         font-size: 1.2rem;
     }
 
@@ -669,14 +751,22 @@ footer i:hover {
         padding: 15px;
     }
 
+    
     .about-us-section .row .col.container h1, h2 {
         font-size: 1.25rem;
     }
 
-    .about-us-section .row .col.container p {
+    .about-us-section .row .col.container p{
         font-size: 0.75rem;
     }
-
+     
+    .section-banner .features .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    
     .about-us-section .statistics .row {
         display: flex;
         flex-direction: row;
