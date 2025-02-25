@@ -58,7 +58,8 @@ header('Location: /dashboard.php');
 exit();
 
 // fetch and process emails function
-function fetch_and_process_emails($client, $pdo, $user_id){
+function fetch_and_process_emails($client, $pdo, $user_id)
+{
     $gmail = new Google_Service_Gmail($client);
     $maxResults = 50; // maximum number of emails to fetch
     $fetchedEmails = 0; // counter for fetched emails
@@ -106,7 +107,7 @@ function fetch_and_process_emails($client, $pdo, $user_id){
                 }
 
                 // FastAPI for phishing classification
-                $ch = curl_init('http://localhost:8082/predict');
+                $ch = curl_init('http://localhost:8000/predict');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['body' => $body]));
@@ -116,12 +117,21 @@ function fetch_and_process_emails($client, $pdo, $user_id){
 
                 $response = curl_exec($ch);
                 curl_close($ch);
+                
+                if ($response === false) {
+                    error_log('cURL Error: ' . curl_error($ch));
+                } else {
+                    error_log('API Response: ' . $response);
+                }
 
                 $classification = 'Safe'; // default
                 if ($response) {
                     $prediction = json_decode($response, true);
+                    error_log('Decoded API Response: ' . print_r($prediction, true));
                     if (isset($prediction['predicted_class'])) {
                         $classification = $prediction['predicted_class']; // set classification based on API response
+                    } else {
+                        error_log('No predicted_class in response!');
                     }
                 } else {
                     error_log('Failed to get prediction from the API for message ID: ' . $message->getId());

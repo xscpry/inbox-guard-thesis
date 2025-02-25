@@ -4,8 +4,8 @@
 
     // initialize
     $client = new Google_Client();
-    $client->setClientId($_ENV['GOOGLE_CLIENT_ID']);
-    $client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+    $client->setClientId('760627622675-e923fkfqppr56bom2np50tk05c1982t7.apps.googleusercontent.com');
+    $client->setClientSecret('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');
     $client->setRedirectUri('http://localhost:80/google-callback.php');
     $client->addScope('email');
     $client->addScope('profile');

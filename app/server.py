@@ -11,21 +11,19 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
 import re
-import numpy as npx
 from scipy.sparse import csr_matrix, hstack
+from pydantic import BaseModel
 
 app = FastAPI()
 
-vectorizer = joblib.load('retrained model/vectorizer.joblib')
-model = joblib.load('retrained model/random_forest_model.joblib')
+vectorizer = joblib.load('feb retrained model/vectorizer_retrained.joblib')
+model = joblib.load('feb retrained model/random_forest_model_retrained.joblib')
 class_names = np.array(['Safe Email', 'Phishing Email'])
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
-REDIRECT_URI = "http://localhost:8000/"
 
-flow = InstalledAppFlow.from_client_secrets_file(
-    'credentials.json', SCOPES, redirect_uri=REDIRECT_URI
-)
-
+# Define request body model
+class EmailRequest(BaseModel):
+    body: str
 
 # connect to db
 def get_db_connection():
@@ -112,10 +110,8 @@ def get_gmail_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES, redirect_uri=REDIRECT_URI
-            )
-            creds = flow.run_local_server(port=0)
+            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            creds = flow.run_local_server(port=8000)
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
@@ -141,13 +137,10 @@ def fetch_emails(service):
 # prediction function using the model
 def predict_email(email_body):
     processed_input = transform_email_features(email_body)
+    print(f"Processed input shape: {processed_input.shape}")  # Debugging
     prediction = model.predict(processed_input)
     
-    # check for malicious content after preprocessing
-    if malicious_content(email_body) > 0: 
-        return class_names[1]  # return 'malicious' if malicious content is detected
-    
-    return class_names[prediction[0]]  # return 'Safe Email' or 'malicious Email' based on prediction
+    return class_names[prediction[0]]  # Return 'Safe Email' or 'malicious Email' based on prediction
 
 def transform_email_features(email_body):
     # cleaning
@@ -155,18 +148,29 @@ def transform_email_features(email_body):
     
     # vectorize the cleaned text
     email_tfidf = vectorizer.transform([processed_body])
+    print("Email TF-IDF shape:", email_tfidf.shape)  # Debugging
     
     # extract additional features
     additional_features = np.array([
         word_count(processed_body),
-        malicious_content(processed_body)
-    ]).reshape(1, -1)  # reshape for a single sample
+        malicious_content(processed_body),
+        # contains_html(processed_body),
+        # contains_attachment(processed_body),
+        # suspicious_domain(processed_body),
+        # num_exclamations(processed_body),
+        # num_uppercase(processed_body),
+        # num_special_chars(processed_body)
+    ]).reshape(1, -1)  # Reshape for a single sample
+    print("Additional features shape:", additional_features.shape)  # debugging
     
     # convert additional features to sparse matrix
     additional_features_sparse = csr_matrix(additional_features)
+    print("Additional features sparse shape:", additional_features_sparse.shape)  # debugging
     
     # combine the TF-IDF features with the additional features
     combined_features = hstack([email_tfidf, additional_features_sparse])
+    print("Combined features shape:", combined_features.shape)  # debugging
+    
     return combined_features
 
 # preprocess the text by removing unwanted characters
@@ -193,8 +197,35 @@ def malicious_content(text):
     # return 1 if malicious content is detected, 0 otherwise
     return int(malicious_score > 0)
 
+def contains_html(text):
+    """Checks if the email contains HTML tags."""
+    return int(bool(re.search(r'<.*?>', text)))
 
-# start the background task when the application starts
+def contains_attachment(text):
+    """Checks if the email mentions an attachment."""
+    keywords = ['attachment', 'pdf', 'invoice', 'file', 'doc', 'zip']
+    return int(any(word in text.lower() for word in keywords))
+
+def suspicious_domain(text):
+    """Checks if the email contains a suspicious domain."""
+    suspicious_domains = ['.ru', '.cn', '.tk', '.ml', '.ga']
+    return int(any(domain in text for domain in suspicious_domains))
+
+def num_exclamations(text):
+    """Counts the number of exclamation marks in the email."""
+    return text.count('!')
+
+def num_uppercase(text):
+    """Counts the number of uppercase letters in the email."""
+    return sum(1 for c in text if c.isupper())
+
+def num_special_chars(text):
+    """Counts the number of special characters like $, %, @, # in the email."""
+    return sum(1 for c in text if c in ['$', '%', '@', '#'])
+
+
+
+# Start the background task when the application starts
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(fetch_and_predict())
@@ -202,3 +233,23 @@ async def startup_event():
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to Inbox Guard!"}
+
+@app.get("/test-spam")
+async def test_spam():
+    # Test with a safe email
+    test_email = """
+    Subject: Welcome!
+
+    This is a followup email for phishing. Click now!
+    """
+    prediction = predict_email(test_email)
+    return {"prediction": prediction}
+
+@app.post("/predict")
+async def predict_email_api(email_request: EmailRequest):
+    try:
+        # Predict classification
+        prediction = predict_email(email_request.body)
+        return {"predicted_class": prediction}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
