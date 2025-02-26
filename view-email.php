@@ -44,10 +44,10 @@ if (!$email) {
     <p class="sender-date"><?= htmlspecialchars($email['sender']) ?> | <?= htmlspecialchars($email['email_date']) ?></p>
     
     <p>
-        <?php if ($email['classification'] === 'Safe'): ?>
-            <span class="classification-safe"><?= htmlspecialchars($email['classification']) ?> Email</span>
-        <?php elseif ($email['classification'] === 'Phishing'): ?>
-            <span class="classification-malicious">Malicious Email</span> 
+        <?php if ($email['classification'] === 'Safe Email'): ?>
+            <span class="classification-safe"><?= htmlspecialchars($email['classification']) ?></span>
+        <?php elseif ($email['classification'] === 'Phishing Email'): ?>
+            <span class="classification-malicious">Phishing Email</span> 
         <?php else: ?>
             <span class="classification-default"><?= htmlspecialchars($email['classification']) ?></span>
         <?php endif; ?>
