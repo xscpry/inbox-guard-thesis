@@ -208,6 +208,8 @@ async def test_spam():
 
     Dear User,
 
+    Urgent!
+
     We have detected unauthorized access to your account. To secure your account, please click the link below and reset your password immediately:
 
     http://phishy-site.com/reset-password
