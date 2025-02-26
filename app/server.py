@@ -14,10 +14,11 @@ import re
 from scipy.sparse import csr_matrix, hstack
 from pydantic import BaseModel
 
-app = FastAPI()
 
-vectorizer = joblib.load('feb retrained model/vectorizer_retrained.joblib')
-model = joblib.load('feb retrained model/random_forest_model_retrained.joblib')
+app = FastAPI()
+vectorizer = joblib.load('feb retrained model/vectorizer_retrained_final.joblib')
+model = joblib.load('feb retrained model/random_forest_model_retrained_final.joblib')
+print("Model expected features:", model.n_features_in_)
 class_names = np.array(['Safe Email', 'Phishing Email'])
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
@@ -25,7 +26,7 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 class EmailRequest(BaseModel):
     body: str
 
-# connect to db
+# Connect to db
 def get_db_connection():
     try:
         conn = mysql.connector.connect(
@@ -40,7 +41,7 @@ def get_db_connection():
         print(f"Error connecting to MySQL: {e}")
         return None
 
-# store fetched emails in the db
+# Store fetched emails in the db
 def store_emails_in_db(emails):
     conn = get_db_connection()
     if conn is not None:
@@ -52,20 +53,20 @@ def store_emails_in_db(emails):
         cursor.close()
         conn.close()
 
-# store predictions in db
+# Store predictions in db
 def store_prediction_in_db(email_id, prediction):
     conn = get_db_connection()
     if conn is not None:
         try:
             cursor = conn.cursor()
             
-            # check if the email_id exists in fetched_emails table
+            # Check if the email_id exists in fetched_emails table
             check_query = "SELECT COUNT(*) FROM fetched_emails WHERE email_id = %s"
             cursor.execute(check_query, (email_id,))
             exists = cursor.fetchone()[0] > 0
             
             if exists:
-                # insert the prediction into email_predictions table
+                # Insert the prediction into email_predictions table
                 query = "INSERT INTO email_predictions (email_id, classification, predicted_at) VALUES (%s, %s, %s)"
                 cursor.execute(query, (email_id, prediction, datetime.now()))
                 conn.commit()
@@ -78,18 +79,17 @@ def store_prediction_in_db(email_id, prediction):
             cursor.close()
             conn.close()
 
-
-# background task to fetch emails and run predictions
+# Background task to fetch emails and run predictions
 async def fetch_and_predict():
     while True:
         try:
-            # fetch new emails
+            # Fetch new emails
             service = get_gmail_service()
             emails = fetch_emails(service)
 
             store_emails_in_db(emails)
 
-            # run predictions on fetched emails
+            # Run predictions on fetched emails
             for email in emails:
                 prediction = predict_email(email['body'])
                 store_prediction_in_db(email['id'], prediction)
@@ -97,9 +97,8 @@ async def fetch_and_predict():
         except Exception as e:
             print(f"Error in background task: {e}")
 
-        # wait for 10mins before fetching again
+        # Wait for 10mins before fetching again
         await asyncio.sleep(600)
-
 
 # Gmail service authentication
 def get_gmail_service():
@@ -116,7 +115,7 @@ def get_gmail_service():
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
 
-# fetch emails from Gmail
+# Fetch emails from Gmail
 def fetch_emails(service):
     results = service.users().messages().list(userId='me', labelIds=['INBOX'], maxResults=10).execute()
     messages = results.get('messages', [])
@@ -134,46 +133,40 @@ def fetch_emails(service):
 
     return emails
 
-# prediction function using the model
+# Prediction function using the model
 def predict_email(email_body):
     processed_input = transform_email_features(email_body)
+    print("Model expected features:", model.n_features_in_)
     print(f"Processed input shape: {processed_input.shape}")  # Debugging
     prediction = model.predict(processed_input)
     
     return class_names[prediction[0]]  # Return 'Safe Email' or 'malicious Email' based on prediction
 
 def transform_email_features(email_body):
-    # cleaning
+    # Cleaning the email body
     processed_body = preprocess_text(email_body)
     
-    # vectorize the cleaned text
+    # Vectorize the cleaned text using the pre-trained vectorizer
     email_tfidf = vectorizer.transform([processed_body])
-    print("Email TF-IDF shape:", email_tfidf.shape)  # Debugging
-    
-    # extract additional features
+    print(f"TF-IDF features shape: {email_tfidf.shape}")
+
+    # Extract additional features: word count and malicious content
     additional_features = np.array([
         word_count(processed_body),
-        malicious_content(processed_body),
-        # contains_html(processed_body),
-        # contains_attachment(processed_body),
-        # suspicious_domain(processed_body),
-        # num_exclamations(processed_body),
-        # num_uppercase(processed_body),
-        # num_special_chars(processed_body)
+        malicious_content(processed_body)
     ]).reshape(1, -1)  # Reshape for a single sample
-    print("Additional features shape:", additional_features.shape)  # debugging
-    
-    # convert additional features to sparse matrix
+    print(f"Additional features shape: {additional_features.shape}")
+
+    # Convert additional features to sparse matrix
     additional_features_sparse = csr_matrix(additional_features)
-    print("Additional features sparse shape:", additional_features_sparse.shape)  # debugging
     
-    # combine the TF-IDF features with the additional features
+    # Combine the TF-IDF features with the additional features
     combined_features = hstack([email_tfidf, additional_features_sparse])
-    print("Combined features shape:", combined_features.shape)  # debugging
-    
+    print(f"Combined features shape: {combined_features.shape}") 
+
     return combined_features
 
-# preprocess the text by removing unwanted characters
+# Preprocess the text by removing unwanted characters
 def preprocess_text(text):
     text = re.sub(r'[^a-zA-Z\s]', '', text)  
     text = re.sub(r'\s+', ' ', text)         
@@ -194,35 +187,8 @@ def malicious_content(text):
 
     malicious_score = phrase_count + contains_html
     
-    # return 1 if malicious content is detected, 0 otherwise
+    # Return 1 if malicious content is detected, 0 otherwise
     return int(malicious_score > 0)
-
-def contains_html(text):
-    """Checks if the email contains HTML tags."""
-    return int(bool(re.search(r'<.*?>', text)))
-
-def contains_attachment(text):
-    """Checks if the email mentions an attachment."""
-    keywords = ['attachment', 'pdf', 'invoice', 'file', 'doc', 'zip']
-    return int(any(word in text.lower() for word in keywords))
-
-def suspicious_domain(text):
-    """Checks if the email contains a suspicious domain."""
-    suspicious_domains = ['.ru', '.cn', '.tk', '.ml', '.ga']
-    return int(any(domain in text for domain in suspicious_domains))
-
-def num_exclamations(text):
-    """Counts the number of exclamation marks in the email."""
-    return text.count('!')
-
-def num_uppercase(text):
-    """Counts the number of uppercase letters in the email."""
-    return sum(1 for c in text if c.isupper())
-
-def num_special_chars(text):
-    """Counts the number of special characters like $, %, @, # in the email."""
-    return sum(1 for c in text if c in ['$', '%', '@', '#'])
-
 
 
 # Start the background task when the application starts
@@ -238,9 +204,19 @@ async def read_root():
 async def test_spam():
     # Test with a safe email
     test_email = """
-    Subject: Welcome!
+    Subject: Important: Your Account Has Been Compromised
 
-    This is a followup email for phishing. Click now!
+    Dear User,
+
+    We have detected unauthorized access to your account. To secure your account, please click the link below and reset your password immediately:
+
+    http://phishy-site.com/reset-password
+
+    If you do not reset your password within 24 hours, your account will be permanently locked.
+
+    Thank you,
+    The Security Team
+
     """
     prediction = predict_email(test_email)
     return {"prediction": prediction}

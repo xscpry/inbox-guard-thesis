@@ -61,7 +61,7 @@ $email = $user['email'] ?? '';
                             echo '<div class="email-container border rounded p-3 mb-3" onclick="window.location.href=\'view-email.php?id=' . htmlspecialchars($email['message_id']) . '\'">';
                             echo '<div class="subject font-weight-bold">' . htmlspecialchars($email['subject']) . '</div>';
                             echo '<div class="details text-muted">';
-                            $classificationClass = $email['classification'] === 'Safe' ? 'classification-safe' : 'classification-malicious';
+                            $classificationClass = $email['classification'] === 'Safe Email' ? 'classification-safe' : 'classification-malicious';
                             echo '<div class="sender">' . htmlspecialchars($email['sender']) . '</div>';
                             echo htmlspecialchars($email['email_date']) . ' • <span class="' . $classificationClass . '">' . htmlspecialchars($email['classification']) . '</span>';
                             echo '</div>';

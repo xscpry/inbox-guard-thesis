@@ -4,10 +4,12 @@ joblib
 pandas
 uvicorn
 fastapi
-scikit-learn==1.3.2
+scikit-learn==1.5.1
 numpy
 scipy
 google-auth
 google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client
+mysql
+mysql-connector-python
