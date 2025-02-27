@@ -115,6 +115,9 @@ def get_gmail_service():
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
 
+from datetime import datetime
+import pytz
+
 # Fetch emails from Gmail
 def fetch_emails(service):
     results = service.users().messages().list(userId='me', labelIds=['INBOX'], maxResults=10).execute()
@@ -123,11 +126,21 @@ def fetch_emails(service):
 
     for message in messages:
         msg = service.users().messages().get(userId='me', id=message['id']).execute()
+
+        # Convert internalDate (UTC milliseconds) to a datetime object
+        internal_date = int(msg['internalDate']) / 1000  # Convert to seconds
+        email_date_utc = datetime.utcfromtimestamp(internal_date)
+        # Convert to Asia/Manila timezone
+        manila_tz = pytz.timezone('Asia/Manila')
+        email_date_manila = email_date_utc.replace(tzinfo=pytz.utc).astimezone(manila_tz)
+        # Format the datetime for storage
+        email_date_str = email_date_manila.strftime('%Y-%m-%d %H:%M:%S')
+
         email_data = {
             'id': message['id'],
             'subject': msg['payload']['headers'][0]['value'], 
             'body': msg['snippet'],  
-            'received_time': msg['internalDate'] 
+            'email_date': email_date_str  # Use the converted datetime string
         }
         emails.append(email_data)
 
@@ -204,20 +217,27 @@ async def read_root():
 async def test_spam():
     # Test with a safe email
     test_email = """
-    Subject: Important: Your Account Has Been Compromised
+    Subject: Urgent: Your Account Security Update Required
 
-    Dear User,
+    *Dear Valued Customer*,
 
-    Urgent!
+    We have detected unusual activity on your account and need you to verify
+    your information immediately to prevent any unauthorized access. Failure to
+    do so may result in temporary suspension of your account.
 
-    We have detected unauthorized access to your account. To secure your account, please click the link below and reset your password immediately:
+    To resolve this issue, please click the link below and log in to confirm
+    your identity:
+    [Verify Your Account Now](http://malicious-link.com)
 
-    http://phishy-site.com/reset-password
+    Please note that this is a mandatory security measure to protect your
+    account. If you do not take action within 24 hours, your account will be
+    restricted.
 
-    If you do not reset your password within 24 hours, your account will be permanently locked.
+    Thank you for your prompt attention to this matter.
 
-    Thank you,
-    The Security Team
+    Sincerely,
+    *Security Team*
+    Your Bank
 
     """
     prediction = predict_email(test_email)

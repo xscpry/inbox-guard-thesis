@@ -87,8 +87,13 @@ function fetch_and_process_emails($client, $pdo, $user_id)
                         $subject = $header->getValue();
                     } if ($header->getName() == 'From'){
                         $sender = $header->getValue();
-                    } if ($header->getName() == 'Date'){
-                        $email_date = date('Y-m-d H:i:s', strtotime($header->getValue()));
+                    } if ($header->getName() == 'Date') {
+                        // Create a DateTime object in UTC
+                        $email_date_utc = new DateTime($header->getValue(), new DateTimeZone('UTC'));
+                        // Convert to Asia/Manila timezone
+                        $email_date_utc->setTimezone(new DateTimeZone('Asia/Manila'));
+                        // Format the date for storage
+                        $email_date = $email_date_utc->format('Y-m-d H:i:s');
                     }
                 }
 
